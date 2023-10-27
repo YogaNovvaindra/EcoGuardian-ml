@@ -2,15 +2,15 @@ import pandas as pd
 import numpy as np
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 
-df = pd.read_csv('../Dataset/smoke_detection_iot.csv')
+df = pd.read_csv('../Dataset/Gas_Sensors_Measurements1.csv')
 
-time_series = df['Temperature[C]']
+time_series = df['MQ2']
 
 seasonality_period = 12
 
-alpha = 0.2
+alpha = 0.8
 beta = 0.2
-gamma = 0.2
+gamma = 0.1
 
 model = ExponentialSmoothing(
     time_series,
