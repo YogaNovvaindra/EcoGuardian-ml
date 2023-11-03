@@ -11,6 +11,7 @@ seasonality_period = 12
 alpha = 0.2
 beta = 0.15
 gamma = 0.3
+
 model = ExponentialSmoothing(
     time_series,
     trend='add',
