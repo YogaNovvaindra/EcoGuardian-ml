@@ -1,0 +1,8 @@
+﻿ISPU;24 Jam partikulat (PM10) µg/m3;24 Jam partikulat (PM2.5);24 Jam sulfur;24 Jam karbon monoksida;24 Jam ozon (O3) µg/m3;24 jam nitrogen dioksida;24 Jam hidrokarbon (HC)
+;;µg/m3;dioksida (SO2);(CO) µg/m3;;(NO2) µg/m3;µg/m3
+;;;µg/m3;;;;
+0 - 50;50;15,5;52;4000;120;80;45
+51 - 100;150;55,4;180;8000;235;200;100
+101 - 200;350;150,4;400;15000;400;1130;215
+201 - 300;420;250,4;800;30000;800;2260;432
+>300;500;500;1200;45000;1000;3000;648
