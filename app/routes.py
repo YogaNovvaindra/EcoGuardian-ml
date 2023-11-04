@@ -16,8 +16,6 @@ def forecast_co2():
     forecast_co2 = get_forecast_co2(esp_id)
     return jsonify({"Triple Exponential Smoothing Forecast": forecast_co2})
 
-from exponen.humidity import get_forecast_humidity
-
 @bp.route('/forecast_humidity', methods=['GET'])
 def forecast_humidity():
     # Get the 'esp_id' parameter from the query string

@@ -19,9 +19,9 @@ def get_forecast_humidity(esp_id):
 
     seasonality_period = 12
 
-    alpha = 0.2
-    beta = 0.15
-    gamma = 0.3
+    alpha = 0.8
+    beta = 0.1
+    gamma = 0.1
 
     model = ExponentialSmoothing(
         time_series,
