@@ -2,6 +2,6 @@ Flask
 matplotlib
 numpy
 pandas
-ExponentialSmoothing
+statsmodels
 pymysql
 dotenv
