@@ -4,4 +4,4 @@ numpy
 pandas
 statsmodels
 pymysql
-dotenv
+python-dotenv
