@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from exponen.co2 import get_forecast_co2
+from exponen.humidity import get_forecast_humidity
 
 bp = Blueprint('main', __name__)
 
@@ -14,8 +15,6 @@ def forecast_co2():
     # Use the 'esp_id' in your get_forecast_co2 function
     forecast_co2 = get_forecast_co2(esp_id)
     return jsonify({"Triple Exponential Smoothing Forecast": forecast_co2})
-
-from exponen.humidity import get_forecast_humidity
 
 @bp.route('/forecast_humidity', methods=['GET'])
 def forecast_humidity():
