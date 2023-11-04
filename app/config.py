@@ -1,6 +1,12 @@
+import os 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 DEBUG = True
-MYSQL_HOST = '10.1.1.13'
-MYSQL_USER = 'root'
-MYSQL_PASSWORD = 'abogoboga'
-MYSQL_DB = 'ecoguardian_db'
+MYSQL_HOST = {os.getenv('MYSQL_HOST')}
+MYSQL_USER = (os.getenv('MYSQL_USER'))
+MYSQL_PASSWORD = (os.getenv('MYSQL_PASSWORD'))
+MYSQL_DB = (os.getenv('MYSQL_DB'))
+MYSQL_PORT = (os.getenv('MYSQL_PORT'))
 

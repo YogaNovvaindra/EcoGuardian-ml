@@ -1,29 +1,27 @@
-import os
 import pandas as pd
-import pymysql
+from app.db import use_engine
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
-from dotenv import load_dotenv
-
-load_dotenv()
 
 def get_forecast_humidity(esp_id):
-    connection = pymysql.connect(
-        host=os.getenv("MYSQL_HOST"),
-        user=os.getenv("MYSQL_USER"),
-        password=os.getenv("MYSQL_PASSWORD"),
-        database=os.getenv("MYSQL_DB")
-    )
+    # connection = pymysql.connect(
+    #     host=os.getenv("MYSQL_HOST"),
+    #     user=os.getenv("MYSQL_USER"),
+    #     password=os.getenv("MYSQL_PASSWORD"),
+    #     database=os.getenv("MYSQL_DB")
+    # )
 
+    engine = use_engine()
     query = "SELECT humidity FROM dummy"
-    # query = "SELECT mq135 FROM dummy WHERE esp_id = '{esp_id}' ORDER BY timestamp DESC"
-    df = pd.read_sql(query, connection)
+    # query = f"SELECT mq135 FROM dummy WHERE esp_id = '{esp_id}' ORDER BY timestamp DESC"
+    df = pd.read_sql(query, engine)
 
     time_series = df['humidity']
 
-    seasonality_period = 5
-    alpha = 0.8
-    beta = 0.1
-    gamma = 0.1
+    seasonality_period = 12
+
+    alpha = 0.2
+    beta = 0.15
+    gamma = 0.3
 
     model = ExponentialSmoothing(
         time_series,
@@ -41,5 +39,4 @@ def get_forecast_humidity(esp_id):
     forecast_period = 5
     forecast = model_fit.forecast(steps=forecast_period)
 
-    connection.close()
     return forecast.tolist()
