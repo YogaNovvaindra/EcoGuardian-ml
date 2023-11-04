@@ -2,7 +2,7 @@ import pandas as pd
 from app.db import use_engine
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 
-def get_forecast_co2(esp_id):
+def get_forecast_humidity(esp_id):
     # connection = pymysql.connect(
     #     host=os.getenv("MYSQL_HOST"),
     #     user=os.getenv("MYSQL_USER"),
@@ -11,11 +11,11 @@ def get_forecast_co2(esp_id):
     # )
 
     engine = use_engine()
-    query = "SELECT mq135 FROM dummy"
+    query = "SELECT humidity FROM dummy"
     # query = f"SELECT mq135 FROM dummy WHERE esp_id = '{esp_id}' ORDER BY timestamp DESC"
     df = pd.read_sql(query, engine)
 
-    time_series = df['mq135']
+    time_series = df['humidity']
 
     seasonality_period = 12
 
@@ -36,7 +36,7 @@ def get_forecast_co2(esp_id):
         smoothing_seasonal=gamma,
     )
 
-    forecast_period = 12
+    forecast_period = 5
     forecast = model_fit.forecast(steps=forecast_period)
 
     return forecast.tolist()
