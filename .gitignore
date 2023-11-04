@@ -1,0 +1,2 @@
+# add folder __pycache__ to .gitignore
+__pycache__
