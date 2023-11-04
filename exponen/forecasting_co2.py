@@ -1,10 +1,27 @@
+import os
 import pandas as pd
 import numpy as np
+import pymysql
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
+from dotenv import load_dotenv
 
-df = pd.read_csv('../Dataset/Gas_Sensors_Measurements1.csv')
+# Load environment variables from .env file
+load_dotenv()
 
-time_series = df['MQ135']
+# MySQL database connection using environment variables
+connection = pymysql.connect(
+    host=os.getenv("MYSQL_HOST"),
+    user=os.getenv("MYSQL_USER"),
+    password=os.getenv("MYSQL_PASSWORD"),
+    database=os.getenv("MYSQL_DB")
+)
+
+# Query to retrieve data from the 'sensor' table
+query = "SELECT mq135 FROM dummy"
+df = pd.read_sql(query, connection)
+connection.close()
+
+time_series = df['mq135']
 
 seasonality_period = 12
 
