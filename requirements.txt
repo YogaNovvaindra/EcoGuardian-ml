@@ -3,5 +3,9 @@ matplotlib
 numpy
 pandas
 statsmodels
-pymysql
+# pymysql
+sqlalchemy
+mysql-connector-python
 python-dotenv
+waitress
+gunicorn
