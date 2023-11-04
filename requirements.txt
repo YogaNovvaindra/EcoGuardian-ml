@@ -7,5 +7,5 @@ statsmodels
 sqlalchemy
 mysql-connector-python
 python-dotenv
-waitress
+# waitress
 gunicorn
