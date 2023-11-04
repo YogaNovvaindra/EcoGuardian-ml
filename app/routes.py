@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from exponen.co2 import get_forecast_co2
+from exponen.humidity import get_forecast_humidity
 
 bp = Blueprint('main', __name__)
 
