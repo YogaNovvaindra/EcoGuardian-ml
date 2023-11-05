@@ -3,12 +3,7 @@ from app.db import use_engine
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 
 def get_forecast_co2(esp_id):
-    # connection = pymysql.connect(
-    #     host=os.getenv("MYSQL_HOST"),
-    #     user=os.getenv("MYSQL_USER"),
-    #     password=os.getenv("MYSQL_PASSWORD"),
-    #     database=os.getenv("MYSQL_DB")
-    # )
+
 
     engine = use_engine()
     query = "SELECT mq135 FROM dummy"
