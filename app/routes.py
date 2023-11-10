@@ -72,7 +72,7 @@ def forecast_pm25():
     return jsonify({"Triple Exponential Smoothing Forecast": forecast_pm25})
 
 
-@bp.route('/get_ispu_co2', methods=['GET'])
+@bp.route('/ispu_co2', methods=['GET'])
 def get_ispu_co2_endpoint():
     # Get the 'esp_id' parameter from the query string
     esp_id = request.args.get('esp_id')
@@ -84,7 +84,7 @@ def get_ispu_co2_endpoint():
     ispu_co2_result = get_ispu_co2(esp_id)
     return jsonify({"Result ISPU": ispu_co2_result})
 
-@bp.route('/get_ispu_pm25', methods=['GET'])
+@bp.route('/ispu_pm25', methods=['GET'])
 def get_ispu_pm25_endpoint():
     # Get the 'esp_id' parameter from the query string
     esp_id = request.args.get('esp_id')
@@ -96,7 +96,7 @@ def get_ispu_pm25_endpoint():
     ispu_pm25_result = get_ispu_pm25(esp_id)
     return jsonify({"Result ISPU": ispu_pm25_result})
 
-@bp.route('/get_ispu_co', methods=['GET'])
+@bp.route('/ispu_co', methods=['GET'])
 def get_ispu_co_endpoint():
     # Get the 'esp_id' parameter from the query string
     esp_id = request.args.get('esp_id')
