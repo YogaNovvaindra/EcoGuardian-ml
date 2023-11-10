@@ -2,20 +2,20 @@ import pandas as pd
 from app.db import use_engine
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 
-def get_forecast_humidity(esp_id):
+def get_forecast_pm25(esp_id):
 
     engine = use_engine()
-    query = "SELECT humidity FROM dummy"
+    query = "SELECT pm25 FROM dummy"
     # query = f"SELECT mq135 FROM dummy WHERE esp_id = '{esp_id}' ORDER BY timestamp DESC"
     df = pd.read_sql(query, engine)
 
-    time_series = df['humidity']
+    time_series = df['pm25']
+
 
     seasonality_period = 12
-
-    alpha = 0.8
-    beta = 0.1
-    gamma = 0.1
+    alpha = 0.12
+    beta = 0.012
+    gamma = 0.12
 
     model = ExponentialSmoothing(
         time_series,
