@@ -3,15 +3,15 @@ name: Build and Push
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  # pull_request:
+  #   branches: [ "main" ]
 
 permissions:
       contents: read
       packages: write
 
 env:
-  VER_TAG: v0.2.0
+  VER_TAG: v0.3.0
 
 jobs:
   docker:
