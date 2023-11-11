@@ -25,6 +25,10 @@ def get_display():
         overall_avg_temperature = combined_data['temperature'].mean()
         overall_avg_humidity = combined_data['humidity'].mean()
 
+        # give me only 1 number after comma
+        overall_avg_temperature = round(overall_avg_temperature, 1)
+        overall_avg_humidity = round(overall_avg_humidity, 1)
+
     else:
         # Handle the case when latest_data is empty
         combined_data = pd.DataFrame()  # or any other appropriate action
