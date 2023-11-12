@@ -14,7 +14,7 @@ def get_display():
     # get latest data for each esp
     latest_data = []
     for i in esp_id:
-        query = f"SELECT temperature, humidity FROM data WHERE esp_id = '{i}' ORDER BY created_at DESC LIMIT 1"
+        query = f"SELECT temperature, humidity FROM data WHERE esp_id = '{i}' ORDER BY createdAt DESC LIMIT 1"
         df = pd.read_sql(query, engine)
         latest_data.append(df)
 
