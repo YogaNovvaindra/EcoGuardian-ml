@@ -8,6 +8,7 @@ from ispu.ispu_co2 import get_ispu_co2
 from ispu.ispu_pm25 import get_ispu_pm25
 from ispu.ispu_co import get_ispu_co
 from output.display import get_display
+from output.mean import get_mean
 
 
 bp = Blueprint('main', __name__)
@@ -114,3 +115,9 @@ def get_display_endpoint():
     # Call the get_display function to calculate the result
     overall_avg_temperature, overall_avg_humidity, overall_avg_polution = get_display()
     return jsonify({"Temperature": overall_avg_temperature, "Humidity": overall_avg_humidity, "Polution": overall_avg_polution})
+
+@bp.route('/mean', methods=['GET'])
+def get_mean_endpoint():
+    # Call the get_mean function to calculate the result
+    result = get_mean()
+    return jsonify({"Result": result})
