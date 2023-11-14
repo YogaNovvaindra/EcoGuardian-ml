@@ -6,7 +6,7 @@ def get_forecast_co2(esp_id):
 
 
     engine = use_engine()
-    query = "SELECT mq135 FROM dummy"
+    query = "SELECT mq135 FROM data"
     # query = f"SELECT mq135 FROM dummy WHERE esp_id = '{esp_id}' ORDER BY timestamp DESC"
     df = pd.read_sql(query, engine)
 

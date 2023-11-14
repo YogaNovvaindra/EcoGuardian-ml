@@ -4,6 +4,7 @@ from exponen.humidity import get_forecast_humidity
 from exponen.mq2 import get_forecast_mq2
 from exponen.temperature import get_forecast_temperature
 from exponen.pm25 import get_forecast_pm25
+from exponen.uji import triple_exponential_smoothing
 from ispu.ispu_co2 import get_ispu_co2
 from ispu.ispu_pm25 import get_ispu_pm25
 from ispu.ispu_co import get_ispu_co
@@ -114,3 +115,16 @@ def get_display_endpoint():
     # Call the get_display function to calculate the result
     overall_avg_temperature, overall_avg_humidity, overall_avg_polution = get_display()
     return jsonify({"Temperature": overall_avg_temperature, "Humidity": overall_avg_humidity, "Polution": overall_avg_polution})
+
+
+@bp.route('/temperature', methods=['GET'])
+def temperature():
+    # Get the 'esp_id' parameter from the query string
+    esp_id = request.args.get('esp_id')
+
+    if esp_id is None:
+        return jsonify({"error": "Missing 'esp_id' parameter"}), 400
+
+    # Use the 'esp_id' in your get_forecast_temperature function
+    forecast_temperature = triple_exponential_smoothing(esp_id)
+    return jsonify({"Triple Exponential Smoothing Forecast": forecast_temperature})
