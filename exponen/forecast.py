@@ -92,7 +92,7 @@ def forecast(esp_id):
 
     utc_datetime = datetime.datetime.utcnow()
     delete_time = datetime.datetime.utcnow()
-    delete_1m = delete_time + datetime.timedelta(minutes=1)
+    delete_1m = delete_time # + datetime.timedelta(minutes=1)
     delete_3h = delete_time + datetime.timedelta(hours=2)
     query_delete = text("DELETE FROM forecast WHERE esp_id = :esp_id and createdAt BETWEEN :delete_1m AND :delete_3h")
     connection.execute(query_delete, {
@@ -231,7 +231,7 @@ def forecast_withpm(esp_id):
     utc_datetime = datetime.datetime.utcnow()
             # delete data forecast between now+1min and now+3hours
     delete_time = datetime.datetime.utcnow()
-    delete_1m = delete_time + datetime.timedelta(minutes=1)
+    delete_1m = delete_time # + datetime.timedelta(minutes=1)
     delete_3h = delete_time + datetime.timedelta(hours=2)
     query_delete = text("DELETE FROM forecast WHERE esp_id = :esp_id and createdAt BETWEEN :delete_1m AND :delete_3h")
     connection.execute(query_delete, {
