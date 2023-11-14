@@ -5,7 +5,7 @@ from statsmodels.tsa.holtwinters import ExponentialSmoothing
 def get_forecast_pm25(esp_id):
 
     engine = use_engine()
-    query = "SELECT pm25 FROM dummy"
+    query = "SELECT pm25 FROM data"
     # query = f"SELECT mq135 FROM dummy WHERE esp_id = '{esp_id}' ORDER BY timestamp DESC"
     df = pd.read_sql(query, engine)
 

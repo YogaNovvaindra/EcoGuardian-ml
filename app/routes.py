@@ -4,6 +4,7 @@ from exponen.humidity import get_forecast_humidity
 from exponen.mq2 import get_forecast_mq2
 from exponen.temperature import get_forecast_temperature
 from exponen.pm25 import get_forecast_pm25
+from exponen.uji import triple_exponential_smoothing
 from ispu.ispu_co2 import get_ispu_co2
 from ispu.ispu_pm25 import get_ispu_pm25
 from ispu.ispu_co import get_ispu_co
