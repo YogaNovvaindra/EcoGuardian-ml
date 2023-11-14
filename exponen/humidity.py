@@ -5,7 +5,7 @@ from statsmodels.tsa.holtwinters import ExponentialSmoothing
 def get_forecast_humidity(esp_id):
 
     engine = use_engine()
-    query = "SELECT humidity FROM dummy"
+    query = "SELECT humidity FROM data"
     # query = f"SELECT mq135 FROM dummy WHERE esp_id = '{esp_id}' ORDER BY timestamp DESC"
     df = pd.read_sql(query, engine)
 

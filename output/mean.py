@@ -7,7 +7,8 @@ from app.db import use_engine
 import uuid
 
 def get_mean():
-    engine, connection = use_engine()
+    engine = use_engine()
+    connection = engine.connect()
     
     try:
         count_esp = "SELECT id FROM esp"

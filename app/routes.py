@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 from exponen.co2 import get_forecast_co2
 from exponen.humidity import get_forecast_humidity
 from exponen.mq2 import get_forecast_mq2
-from exponen.temperature import get_forecast_temperature
+from exponen.forecast import get_forecast
 from exponen.pm25 import get_forecast_pm25
 from ispu.ispu_co2 import get_ispu_co2
 from ispu.ispu_pm25 import get_ispu_pm25
@@ -49,17 +49,12 @@ def forecast_mq2():
     forecast_mq2 = get_forecast_mq2(esp_id)
     return jsonify({"Triple Exponential Smoothing Forecast": forecast_mq2})
 
-@bp.route('/forecast_temperature', methods=['GET'])
-def forecast_temperature():
-    # Get the 'esp_id' parameter from the query string
-    esp_id = request.args.get('esp_id')
-
-    if esp_id is None:
-        return jsonify({"error": "Missing 'esp_id' parameter"}), 400
+@bp.route('/forecast', methods=['GET'])
+def forecast():
 
     # Use the 'esp_id' in your get_forecast_temperature function
-    forecast_temperature = get_forecast_temperature(esp_id)
-    return jsonify({"Triple Exponential Smoothing Forecast": forecast_temperature})
+    forecast = get_forecast()
+    return jsonify({"Triple Exponential Smoothing Forecast": forecast})
 
 @bp.route('/forecast_pm25', methods=['GET'])
 def forecast_pm25():
