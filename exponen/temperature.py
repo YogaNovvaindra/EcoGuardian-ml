@@ -1,36 +1,24 @@
+import datetime
 import pandas as pd
 from app.db import use_engine
-from statsmodels.tsa.holtwinters import ExponentialSmoothing
+from exponen.engine import triple_exponential_smoothing
 
 def get_forecast_temperature(esp_id):
 
     engine = use_engine()
-    query = "SELECT temperature FROM data"
-    # query = f"SELECT mq135 FROM dummy WHERE esp_id = '{esp_id}' ORDER BY timestamp DESC"
+
+    query = f"SELECT temperature FROM data WHERE esp_id = '{esp_id}' ORDER BY createdAt DESC LIMIT 10080"
+    # query = f"SELECT temperature FROM mean ORDER BY createdAt DESC LIMIT 1440"
     df = pd.read_sql(query, engine)
+    data = df["temperature"]
 
-    time_series = df['temperature']
+    # reverse data but dont reverse index
+    data = data[::-1].reset_index(drop=True)
+    print(data)
 
-    seasonality_period = 12
+    forecast_temperature = triple_exponential_smoothing(data, 7, 0.2, 0.2, 0.2, 360)
+    utc_datetime = datetime.datetime.utcnow()
 
-    alpha = 0.2
-    beta = 0.2
-    gamma = 0.2
+    # forecast_remperature = triple_exponential_smoothing(data, 12, 0.2, 0.2, 0.2, 60)
+    return forecast_temperature
 
-    model = ExponentialSmoothing(
-        time_series,
-        trend='add',
-        seasonal='add',
-        seasonal_periods=seasonality_period,
-    )
-
-    model_fit = model.fit(
-        smoothing_level=alpha,
-        smoothing_trend=beta,
-        smoothing_seasonal=gamma,
-    )
-
-    forecast_period = 12
-    forecast = model_fit.forecast(steps=forecast_period)
-
-    return forecast.tolist()

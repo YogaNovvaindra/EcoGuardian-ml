@@ -1,43 +1,22 @@
 import pandas as pd
-import numpy as np
-from statsmodels.tsa.holtwinters import ExponentialSmoothing
+from app.db import use_engine
+from exponen.engine import triple_exponential_smoothing
 
-df = pd.read_csv('../Dataset/smoke_detection_iot.csv')
+def get_forecast_temperature(esp_id):
 
-time_series = df['Temperature[C]']
+    # engine = use_engine()
 
-seasonality_period = 12
+    # query = f"SELECT temperature FROM data WHERE esp_id = '{esp_id}' ORDER BY createdAt DESC LIMIT 12"
+    # df = pd.read_sql(query, engine)
+    # data = df["data"].tolist()
+    # print(data)
 
-alpha = 0.2
-beta = 0.2
-gamma = 0.2
+    engine = use_engine()
+    query = "SELECT * FROM esp"
+    df = pd.read_sql(query, engine)
+    print(df)
 
-model = ExponentialSmoothing(
-    time_series,
-    trend='add',
-    seasonal='add',
-    seasonal_periods=seasonality_period,
-)
 
-model_fit = model.fit(
-    smoothing_level=alpha,
-    smoothing_trend=beta,
-    smoothing_seasonal=gamma,
-)
+    # forecast_remperature = triple_exponential_smoothing(data, 12, 0.2, 0.2, 0.2, 60)
+    # return forecast_remperature
 
-forecast_period = 12
-forecast = model_fit.forecast(steps=forecast_period)
-
-print("Triple Exponential Smoothing Forecast:")
-print(forecast)
-
-import matplotlib.pyplot as plt
-
-plt.figure(figsize=(12, 6))
-plt.plot(time_series, label='Actual Data')
-plt.plot(model_fit.fittedvalues, label='Fitted Values', color='orange')
-forecast_values = model_fit.forecast(steps=forecast_period)
-plt.plot(forecast_values, label='Forecast', color='green')
-plt.legend()
-plt.title('Triple Exponential Smoothing Forecast')
-plt.show()
