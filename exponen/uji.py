@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 from app.db import use_engine
+from sklearn.metrics import mean_squared_error
 
 def triple_exponential_smoothing(data, seasonality_period, alpha, beta, gamma, forecast_period):
     # Inisialisasi level, trend, dan seasonal
@@ -35,26 +35,51 @@ def triple_exponential_smoothing(data, seasonality_period, alpha, beta, gamma, f
 
     return fitted_values, forecast_values
 
+def evaluate_model(data, seasonality_period, alpha, beta, gamma, forecast_period):
+    fitted_values, forecast_values = triple_exponential_smoothing(data, seasonality_period, alpha, beta, gamma, forecast_period)
+    mse = mean_squared_error(data, fitted_values[:len(data)])
+    return mse
+
 # Baca data
 engine = use_engine()
-query = "SELECT temperature FROM data"
-    # query = f"SELECT mq135 FROM dummy WHERE esp_id = '{esp_id}' ORDER BY timestamp DESC"
+query = "SELECT temperature FROM data WHERE esp_id = 'clotgwdgf0000pfmghz30qjlz' ORDER BY createdAt DESC LIMIT 2880 "
 df = pd.read_sql(query, engine)
 
 time_series = df['temperature']
+time_series = time_series[::-1].reset_index(drop=True)
 
-# Parameter triple exponential smoothing
-seasonality_period = 12
+# Example for daily seasonality
+seasonality_period = 28
 
-alpha = 0.2
-beta = 0.2
-gamma = 0.2
+# Experiment with different parameter values
+alpha_values = [0.1, 0.2, 0.3]
+beta_values = [0.1, 0.2, 0.3]
+gamma_values = [0.1, 0.2, 0.3]
 
-# Periode forecast
-forecast_period = 12
+# Set forecast_period
+forecast_period = 360
 
-# Triple Exponential Smoothing
-fitted_values, forecast_values = triple_exponential_smoothing(time_series, seasonality_period, alpha, beta, gamma, forecast_period)
+best_mse = float('inf')
+best_params = {}
 
+for alpha in alpha_values:
+    for beta in beta_values:
+        for gamma in gamma_values:
+            mse = evaluate_model(time_series, seasonality_period, alpha, beta, gamma, forecast_period)
+            if mse < best_mse:
+                best_mse = mse
+                best_params = {'alpha': alpha, 'beta': beta, 'gamma': gamma}
+
+print("Best Parameters:", best_params)
+print("Best MSE:", best_mse)
+# Best Parameters
+best_alpha = best_params['alpha']
+best_beta = best_params['beta']
+best_gamma = best_params['gamma']
+
+# Triple Exponential Smoothing with Best Parameters
+fitted_values, forecast_values = triple_exponential_smoothing(time_series, seasonality_period, best_alpha, best_beta, best_gamma, forecast_period)
+
+# Print and Plot Forecasted Values
 print("Triple Exponential Smoothing Forecast:")
 print(forecast_values)
