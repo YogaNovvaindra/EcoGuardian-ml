@@ -5,6 +5,7 @@ from exponen.clean_forecast import get_clean_forecast
 from ispu.ispu_co2 import get_ispu_co2
 from ispu.ispu_pm25 import get_ispu_pm25
 from ispu.ispu_co import get_ispu_co
+from ispu.ispu_pm10 import get_ispu_pm10
 from output.display import get_display
 from output.mean import get_mean
 
@@ -37,13 +38,12 @@ def clean_forecast():
 @bp.route('/ispu_co2', methods=['GET'])
 def get_ispu_co2_endpoint():
     # Get the 'esp_id' parameter from the query string
-    esp_id = request.args.get('esp_id')
+   
 
-    if esp_id is None:
-        return jsonify({"error": "Missing 'esp_id' parameter"}, 400)
+   
 
     # Call the get_ispu_co function to calculate the result
-    ispu_co2_result = get_ispu_co2(esp_id)
+    ispu_co2_result = get_ispu_co2()
     return jsonify({"Result ISPU": ispu_co2_result})
 
 @bp.route('/ispu_pm25', methods=['GET'])
@@ -57,6 +57,20 @@ def get_ispu_pm25_endpoint():
     # Call the get_ispu_pm25 function to calculate the result
     ispu_pm25_result = get_ispu_pm25(esp_id)
     return jsonify({"Result ISPU": ispu_pm25_result})
+
+
+@bp.route('/ispu_pm10', methods=['GET'])
+def get_ispu_pm10_endpoint():
+    # Get the 'esp_id' parameter from the query string
+    esp_id = request.args.get('esp_id')
+
+    if esp_id is None:
+        return jsonify({"error": "Missing 'esp_id' parameter"}, 400)
+
+    # Call the get_ispu_pm25 function to calculate the result
+    ispu_pm10_result = get_ispu_pm10(esp_id)
+    return jsonify({"Result ISPU": ispu_pm10_result})
+
 
 @bp.route('/ispu_co', methods=['GET'])
 def get_ispu_co_endpoint():
@@ -81,3 +95,5 @@ def get_mean_endpoint():
     # Call the get_mean function to calculate the result
     result = get_mean()
     return jsonify({"Result": result})
+
+
