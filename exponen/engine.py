@@ -32,5 +32,4 @@ def triple_exponential_smoothing(data, seasonality_period, alpha, beta, gamma, f
             seasonal[i % seasonality_period] = gamma * (forecast_values[-1] - level) + (1 - gamma) * seasonal[i % seasonality_period]
 
     forecast_values = [round(float(i), 3) for i in forecast_values]
-    
     return forecast_values
