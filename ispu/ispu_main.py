@@ -1,10 +1,7 @@
 import pandas as pd
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy import text
 import logging
-import datetime
 from app.db import use_engine
-import uuid
 from ispu.ispu_co import get_ispu_co
 from ispu.ispu_pm25 import get_ispu_pm25
 from ispu.ispu_pm10 import get_ispu_pm10

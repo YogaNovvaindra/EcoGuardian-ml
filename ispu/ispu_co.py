@@ -8,15 +8,14 @@ from app.db import use_engine
 
 
 def get_ispu_co(esp_id):
-
     engine = use_engine()
     connection = engine.connect()
     query = f"SELECT mq135_co FROM data WHERE esp_id = '{esp_id}' ORDER BY createdAt DESC LIMIT 60"
-        # query = f"SELECT mq135 FROM dummy WHERE esp_id = '{esp_id}' ORDER BY timestamp DESC"
+    # query = f"SELECT mq135 FROM dummy WHERE esp_id = '{esp_id}' ORDER BY timestamp DESC"
     df = pd.read_sql(query, engine)
 
-    average = df['mq135_co'].mean()
-    
+    average = df["mq135_co"].mean()
+
     # print(average)
     berat_molekul_CO = 28.01  # Berat molekul CO dalam g/mol
     volume_molar_CO = 24.5  # Volume molar CO dalam L/mol
@@ -29,61 +28,68 @@ def get_ispu_co(esp_id):
         Ib = 50
         Xa = 8000
         Xb = 4000
-        color = 'green'
-        health_status = 'Baik'
-        
+        color = "green"
+        health_status = "Baik"
+
     elif 4000 <= average_co <= 8000:
         Ia = 200
         Ib = 100
         Xa = 15000
         Xb = 8000
-        color = 'blue'
-        health_status = 'Sedang'
+        color = "blue"
+        health_status = "Sedang"
     elif 8000 <= average_co <= 15000:
         Ia = 300
         Ib = 200
         Xa = 30000
         Xb = 15000
-        color = 'yellow'
-        health_status = 'Tidak Sehat'
+        color = "yellow"
+        health_status = "Tidak Sehat"
     elif 15000 <= average_co <= 30000:
         Ia = 400
         Ib = 300
         Xa = 45000
         Xb = 30000
-        color = 'red'
-        health_status = 'Sangat Tidak Sehat'
+        color = "red"
+        health_status = "Sangat Tidak Sehat"
     else:
         Ia = 500
         Ib = 500
         Xa = 50000
         Xb = 45000
-        color = 'black'
-        health_status = 'Berbahaya'
-
+        color = "black"
+        health_status = "Berbahaya"
 
     Xx = average_co
     I = ((Ia - Ib) / (Xa - Xb)) * (Xx - Xb) + Ib
 
     ispu_id = str(uuid.uuid4())
-    jenis_gas = str('mq135_co')
+    jenis_gas = str("mq135_co")
     now = datetime.datetime.now()
     try:
-        query = text("INSERT INTO ispu (id, esp_id, nilai_ispu, text_ispu, jenis_gas, createdAt, updatedAt) VALUES (:id, :esp_id, :nilai_ispu, :text_ispu, :jenis_gas, :createdAt, :updatedAt)")
-        connection.execute(query, {
-            'id': ispu_id,
-            'esp_id': esp_id,
-            'nilai_ispu': float(I),
-            'text_ispu': str(health_status),
-            'jenis_gas': jenis_gas,
-            'createdAt': now,
-            'updatedAt': now
-        })
+        query = text(
+            """
+            INSERT INTO ispu (id, esp_id, nilai_ispu, text_ispu, jenis_gas, createdAt, updatedAt)
+            VALUES (:id, :esp_id, :nilai_ispu, :text_ispu, :jenis_gas, :createdAt, :updatedAt)
+        """
+        )
+        connection.execute(
+            query,
+            {
+                "id": ispu_id,
+                "esp_id": esp_id,
+                "nilai_ispu": float(I),
+                "text_ispu": str(health_status),
+                "jenis_gas": jenis_gas,
+                "createdAt": now,
+                "updatedAt": now,
+            },
+        )
         connection.commit()
     except SQLAlchemyError as e:
         logging.error(e)
         return "Error when updating forecast table : " + str(e)
     finally:
         connection.close()
-  
+
     return I, health_status
