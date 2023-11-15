@@ -1,9 +1,7 @@
 from flask import Blueprint, jsonify, request
-from exponen.co2 import get_forecast_co2
-from exponen.humidity import get_forecast_humidity
-from exponen.mq2 import get_forecast_mq2
 from exponen.forecast import get_forecast
-from exponen.pm25 import get_forecast_pm25
+from exponen.clean_forecast import get_clean_forecast
+# from exponen.pm25 import get_forecast_pm25
 from ispu.ispu_co2 import get_ispu_co2
 from ispu.ispu_pm25 import get_ispu_pm25
 from ispu.ispu_co import get_ispu_co
@@ -13,60 +11,27 @@ from output.mean import get_mean
 
 bp = Blueprint('main', __name__)
 
-@bp.route('/forecast_co2', methods=['GET'])
-def forecast_co2():
-    # Get the 'esp_id' parameter from the query string
-    esp_id = request.args.get('esp_id')
-
-    if esp_id is None:
-        return jsonify({"error": "Missing 'esp_id' parameter"}), 400
-
-    # Use the 'esp_id' in your get_forecast_co2 function
-    forecast_co2 = get_forecast_co2(esp_id)
-    return jsonify({"Triple Exponential Smoothing Forecast": forecast_co2})
-
-@bp.route('/forecast_humidity', methods=['GET'])
-def forecast_humidity():
-    # Get the 'esp_id' parameter from the query string
-    esp_id = request.args.get('esp_id')
-
-    if esp_id is None:
-        return jsonify({"error": "Missing 'esp_id' parameter"}), 400
-
-    # Use the 'esp_id' in your get_forecast_humidity function
-    forecast_humidity = get_forecast_humidity(esp_id)
-    return jsonify({"Triple Exponential Smoothing Forecast": forecast_humidity})
-
-@bp.route('/forecast_mq2', methods=['GET'])
-def forecast_mq2():
-    # Get the 'esp_id' parameter from the query string
-    esp_id = request.args.get('esp_id')
-
-    if esp_id is None:
-        return jsonify({"error": "Missing 'esp_id' parameter"}), 400
-
-    # Use the 'esp_id' in your get_forecast_mq2 function
-    forecast_mq2 = get_forecast_mq2(esp_id)
-    return jsonify({"Triple Exponential Smoothing Forecast": forecast_mq2})
-
 @bp.route('/forecast', methods=['GET'])
 def forecast():
-
-    # Use the 'esp_id' in your get_forecast_temperature function
     forecast = get_forecast()
     return jsonify({"Triple Exponential Smoothing Forecast": forecast})
 
-@bp.route('/forecast_pm25', methods=['GET'])
-def forecast_pm25():
-    # Get the 'esp_id' parameter from the query string
-    esp_id = request.args.get('esp_id')
+@bp.route('/clean_forecast', methods=['GET'])
+def clean_forecast():
+    clean_forecast = get_clean_forecast()
+    return jsonify({"Clean Forecast": clean_forecast})
 
-    if esp_id is None:
-        return jsonify({"error": "Missing 'esp_id' parameter"}), 400
+# @bp.route('/forecast_pm25', methods=['GET'])
+# def forecast_pm25():
+#     # Get the 'esp_id' parameter from the query string
+#     esp_id = request.args.get('esp_id')
 
-    # Use the 'esp_id' in your get_forecast_pm25 function
-    forecast_pm25 = get_forecast_pm25(esp_id)
-    return jsonify({"Triple Exponential Smoothing Forecast": forecast_pm25})
+#     if esp_id is None:
+#         return jsonify({"error": "Missing 'esp_id' parameter"}), 400
+
+#     # Use the 'esp_id' in your get_forecast_pm25 function
+#     forecast_pm25 = get_forecast_pm25(esp_id)
+#     return jsonify({"Triple Exponential Smoothing Forecast": forecast_pm25})
 
 
 @bp.route('/ispu_co2', methods=['GET'])
