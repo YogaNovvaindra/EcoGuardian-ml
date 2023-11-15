@@ -1,23 +1,28 @@
+import datetime
+import uuid
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import text
+import logging
 import pandas as pd
-import matplotlib.pyplot as plt
 from app.db import use_engine
 
 
 def get_ispu_co(esp_id):
 
     engine = use_engine()
+    connection = engine.connect()
     query = f"SELECT mq135_co FROM data WHERE esp_id = '{esp_id}' ORDER BY createdAt DESC LIMIT 60"
         # query = f"SELECT mq135 FROM dummy WHERE esp_id = '{esp_id}' ORDER BY timestamp DESC"
     df = pd.read_sql(query, engine)
 
     average = df['mq135_co'].mean()
     
-    print(average)
+    # print(average)
     berat_molekul_CO = 28.01  # Berat molekul CO dalam g/mol
     volume_molar_CO = 24.5  # Volume molar CO dalam L/mol
     pangkat = 1000
     average_co = ((average * berat_molekul_CO) / volume_molar_CO) * pangkat
-    print(average_co)
+    # print(average_co)
 
     if 0 <= average_co <= 4000:
         Ia = 100
@@ -59,5 +64,26 @@ def get_ispu_co(esp_id):
 
     Xx = average_co
     I = ((Ia - Ib) / (Xa - Xb)) * (Xx - Xb) + Ib
+
+    ispu_id = str(uuid.uuid4())
+    jenis_gas = str('mq135_co')
+    now = datetime.datetime.now()
+    try:
+        query = text("INSERT INTO ispu (id, esp_id, nilai_ispu, text_ispu, jenis_gas, createdAt, updatedAt) VALUES (:id, :esp_id, :nilai_ispu, :text_ispu, :jenis_gas, :createdAt, :updatedAt)")
+        connection.execute(query, {
+            'id': ispu_id,
+            'esp_id': esp_id,
+            'nilai_ispu': float(I),
+            'text_ispu': str(health_status),
+            'jenis_gas': jenis_gas,
+            'createdAt': now,
+            'updatedAt': now
+        })
+        connection.commit()
+    except SQLAlchemyError as e:
+        logging.error(e)
+        return "Error when updating forecast table : " + str(e)
+    finally:
+        connection.close()
   
     return I, health_status

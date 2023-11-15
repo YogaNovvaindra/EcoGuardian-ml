@@ -1,16 +1,22 @@
+import datetime
+import uuid
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import text
+import logging
 import pandas as pd
-import matplotlib.pyplot as plt
 from app.db import use_engine
 
 
 def get_ispu_pm10(esp_id):
 
     engine = use_engine()
+    connection = engine.connect()
+
     query = f"SELECT pm10 FROM data WHERE esp_id = '{esp_id}' ORDER BY createdAt DESC LIMIT 60"
         # query = f"SELECT mq135 FROM dummy WHERE esp_id = '{esp_id}' ORDER BY timestamp DESC"
     df = pd.read_sql(query, engine)
     average_pm10 = df['pm10'].mean()
-    print('rata', average_pm10)
+    # print('rata', average_pm10)
 
 
     if 0 <= average_pm10 <= 50:
@@ -52,6 +58,27 @@ def get_ispu_pm10(esp_id):
 
     Xx = average_pm10
     I = ((Ia - Ib) / (Xa - Xb)) * (Xx - Xb) + Ib
+
+    ispu_id = str(uuid.uuid4())
+    jenis_gas = str('pm10')
+    now = datetime.datetime.now()
+    try:
+        query = text("INSERT INTO ispu (id, esp_id, nilai_ispu, text_ispu, jenis_gas, createdAt, updatedAt) VALUES (:id, :esp_id, :nilai_ispu, :text_ispu, :jenis_gas, :createdAt, :updatedAt)")
+        connection.execute(query, {
+            'id': ispu_id,
+            'esp_id': esp_id,
+            'nilai_ispu': float(I),
+            'text_ispu': str(health_status),
+            'jenis_gas': jenis_gas,
+            'createdAt': now,
+            'updatedAt': now
+        })
+        connection.commit()
+    except SQLAlchemyError as e:
+        logging.error(e)
+        return "Error when updating forecast table : " + str(e)
+    finally:
+        connection.close()
 
     return I, health_status
 
