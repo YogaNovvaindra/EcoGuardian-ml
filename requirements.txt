@@ -1,8 +1,6 @@
 Flask
-matplotlib
 numpy
 pandas
-statsmodels
 # pymysql
 sqlalchemy
 mysql-connector-python
