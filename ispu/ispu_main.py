@@ -14,6 +14,7 @@ def get_ispu():
     engine = use_engine()
     connection = engine.connect()
 
+    result = []
     try:
         count_esp = "SELECT id FROM esp"
         df_esp = pd.read_sql(count_esp, engine)
@@ -49,9 +50,11 @@ def get_ispu():
                     connection.commit()
                 except SQLAlchemyError as e:
                     logging.error(e)
-                    result = f"Error when inserting ispu table : {str(e)}"
-                else :
-                    result = "Success calculating ISPU"
+                    # add to result array
+                    result.append(f"Error when inserting ispu table : {str(e)}")
+                else:
+                    # add to result array
+                    result.append(f"Success calculating ISPU {str(i)}")
 
             else:
                 co = get_ispu_co(i)
@@ -82,15 +85,17 @@ def get_ispu():
                     connection.commit()
                 except SQLAlchemyError as e:
                     logging.error(e)
-                    result = f"Error when inserting ispu table : {str(e)}"
-                else :
-                    result = "Success calculating ISPU"
+                    # add to result array
+                    result.append(f"Error when inserting ispu table : {str(e)}")
+                else:
+                    # add to result array
+                    result.append(f"Success calculating ISPU {str(i)}")
 
     except SQLAlchemyError as e:
         logging.error(e)
         return f"Error when updating forecast table : {str(e)}"
     else:
-        return f"Success calculating ISPU: {str(result)}"
+        return f"Success calculating ISPU: {result}"
     finally:
         connection.close()
         
