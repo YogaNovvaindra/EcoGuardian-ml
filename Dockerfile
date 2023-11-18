@@ -23,4 +23,4 @@ EXPOSE 5000
 # Define the command to run your Flask application
 # CMD ["python", "run.py"]
 #use gunicorn
-CMD ["gunicorn", "w", "4", "-b", "0.0.0.0:3001", "run:app"]
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:3001", "run:app"]
