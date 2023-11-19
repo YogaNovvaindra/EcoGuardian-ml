@@ -34,5 +34,4 @@ def get_forecast():
         else:
             result = all_forecast_withpm(i, 18)
             # print(result)
-
     return "success forecast data"
