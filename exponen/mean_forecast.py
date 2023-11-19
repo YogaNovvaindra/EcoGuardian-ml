@@ -75,5 +75,5 @@ def mean_forecast(forecast_period):
             result = "Success inserting forecast table"
         # finally:
         #     connection.close()
-
+    connection.close()
     return result

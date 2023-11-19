@@ -18,9 +18,9 @@ ENV MYSQL_PORT=3306
 ENV MYSQL_PASSWORD=abogoboga
 ENV MYSQL_DB=ecoguardian_db
 # Expose the port your Flask app will run on
-EXPOSE 5000
+EXPOSE 3001
 
 # Define the command to run your Flask application
 # CMD ["python", "run.py"]
 #use gunicorn
-CMD ["gunicorn", "-b", "0.0.0.0:3001", "run:app"]
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:3001", "run:app"]

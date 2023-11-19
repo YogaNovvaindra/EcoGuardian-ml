@@ -115,3 +115,10 @@ def get_mean():
             return result
     finally:
         connection.close()
+
+
+def get_ispu_mean():
+    engine = use_engine()
+    connection = engine.connect()
+    
+    

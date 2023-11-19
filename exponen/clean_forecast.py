@@ -33,7 +33,7 @@ def clean_forecast():
         connection.commit()
     except SQLAlchemyError as e:
         logging.error(e)
-        return "Error when updating forecast table : " + str(e)
+        return f"Error when updating forecast table : {str(e)}"
     else:
         return "Success updating forecast table"
     finally:
@@ -63,7 +63,7 @@ def clean_forecast_mean():
         connection.commit()
     except SQLAlchemyError as e:
         logging.error(e)
-        return "Error when updating forecast_mean table : " + str(e)
+        return f"Error when updating forecast_mean table : {str(e)}"
     else:
         return "Success updating forecast_mean table"
     finally:

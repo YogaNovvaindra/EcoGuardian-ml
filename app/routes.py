@@ -4,6 +4,7 @@ from exponen.clean_forecast import get_clean_forecast
 
 # from exponen.pm25 import get_forecast_pm25
 from ispu.ispu_main import get_ispu
+from ispu.ispu_clean import get_ispu_clean
 from output.display import get_display
 from output.mean import get_mean
 
@@ -43,6 +44,12 @@ def get_ispu_co2_endpoint():
     # Call the get_ispu_co function to calculate the result
     ispu_result = get_ispu()
     return jsonify({"Result ISPU": ispu_result})
+
+
+@bp.route("/ispu_clean", methods=["GET"])
+def get_ispu_clean_endpoint():
+    clean_result = get_ispu_clean()
+    return jsonify({"Result ISPU": clean_result})
 
 
 @bp.route("/display", methods=["GET"])
