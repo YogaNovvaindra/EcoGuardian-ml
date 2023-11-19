@@ -13,7 +13,7 @@ def mean_forecast(forecast_period):
     engine = use_engine()
     connection = engine.connect()
 
-    query = f"SELECT temperature, humidity, mq135_co, mq135_co2 FROM mean ORDER BY createdAt DESC LIMIT 10080"
+    query = "SELECT temperature, humidity, mq135_co, mq135_co2 FROM mean ORDER BY createdAt DESC LIMIT 10080"
     df = pd.read_sql(query, engine)
 
     temperature = df["temperature"]
@@ -70,10 +70,10 @@ def mean_forecast(forecast_period):
             connection.commit()
         except SQLAlchemyError as e:
             logging.error(e)
-            result = "Error when inserting forecast table : " + str(e)
+            result = f"Error when inserting forecast table : {str(e)}"
         else:
-            result = "Success inserting forecast table"
-        # finally:
-        #     connection.close()
+            result = "Success inserting forecast mean"
+            # finally:
+            #     connection.close()
     connection.close()
     return result

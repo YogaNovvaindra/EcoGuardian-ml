@@ -150,7 +150,7 @@ def all_forecast(esp_id, forecast_period):
             logging.error(f"Error inserting data into the database: {e}")
             result = "error forecast data"
         else:
-            result = "success forecast data"
+            result = f"success forecast data {esp_id}"
         # finally:
         #     connection.close()
     connection.close()
@@ -256,14 +256,14 @@ def all_forecast_withpm(esp_id, forecast_period):
     pm10 = pm10.groupby(np.arange(len(pm10)) // 10).mean()
     pm10 = pm10[::-1].reset_index(drop=True)
     forecast_pm10 = triple_exponential_smoothing(
-        pm10, 7, 0.2, 0.2, 0.2, forecast_period
+        pm10, 7, 0.12, 0.012, 0.12, forecast_period
     )
 
     pm25 = df["pm25"]
     pm25 = pm25.groupby(np.arange(len(pm25)) // 10).mean()
     pm25 = pm25[::-1].reset_index(drop=True)
     forecast_pm25 = triple_exponential_smoothing(
-        pm25, 7, 0.2, 0.2, 0.2, forecast_period
+        pm25, 7, 0.12, 0.012, 0.12, forecast_period
     )
 
     utc_datetime = datetime.datetime.utcnow()
@@ -313,7 +313,7 @@ def all_forecast_withpm(esp_id, forecast_period):
             logging.error(f"Error inserting data into the database: {e}")
             result = "error forecast data"
         else:
-            result = "success forecast data"
+            result = f"success forecast data {esp_id}"
         # finally:
         #     connection.close()
     connection.close()
