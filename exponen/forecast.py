@@ -10,7 +10,9 @@ from exponen.mean_forecast import mean_forecast
 
 
 def get_forecast():
+
     engine = use_engine()
+    result = []
     # query esp include data
     count_esp = "SELECT id FROM esp"
     df = pd.read_sql(count_esp, engine)
@@ -20,7 +22,9 @@ def get_forecast():
     delete_mean = reset_mean_forecast()
 
     # print(delete)
-    result = mean_forecast(36)
+
+    res = mean_forecast(36)
+    result.append(res)
     # if delete == True:
     for i in esp_id:
         query = (
@@ -29,10 +33,10 @@ def get_forecast():
         df = pd.read_sql(query, engine)
 
         if df["pm10"].isnull().values.any() == True:
-            result = all_forecast(i, 36)
-            # print(result)
+            res = all_forecast(i, 36)
+                    # print(result)
         else:
-            result = all_forecast_withpm(i, 36)
-            # print(result)
-
-    return "success forecast data"
+            res = all_forecast_withpm(i, 36)
+                    # print(result)
+        result.append(res)
+    return result

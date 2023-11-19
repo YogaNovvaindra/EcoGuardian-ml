@@ -150,7 +150,7 @@ def all_forecast(esp_id, forecast_period):
             logging.error(f"Error inserting data into the database: {e}")
             result = "error forecast data"
         else:
-            result = "success forecast data"
+            result = f"success forecast data {esp_id}"
         # finally:
         #     connection.close()
     connection.close()
@@ -313,7 +313,7 @@ def all_forecast_withpm(esp_id, forecast_period):
             logging.error(f"Error inserting data into the database: {e}")
             result = "error forecast data"
         else:
-            result = "success forecast data"
+            result = f"success forecast data {esp_id}"
         # finally:
         #     connection.close()
     connection.close()
