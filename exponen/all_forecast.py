@@ -153,6 +153,7 @@ def all_forecast(esp_id, forecast_period):
             result = "success forecast data"
         # finally:
         #     connection.close()
+    connection.close()
     return result
 
 
@@ -315,4 +316,5 @@ def all_forecast_withpm(esp_id, forecast_period):
             result = "success forecast data"
         # finally:
         #     connection.close()
+    connection.close()
     return result
