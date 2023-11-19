@@ -57,5 +57,4 @@ def get_ispu_pm10(esp_id):
     I = ((Ia - Ib) / (Xa - Xb)) * (Xx - Xb) + Ib
     
     I = float(I)
-
     return I, health_status
