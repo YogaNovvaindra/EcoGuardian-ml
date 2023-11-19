@@ -22,7 +22,8 @@ def get_forecast():
     delete_mean = reset_mean_forecast()
 
     # print(delete)
-    res = mean_forecast(18)
+
+    res = mean_forecast(36)
     result.append(res)
     # if delete == True:
     for i in esp_id:
@@ -32,10 +33,10 @@ def get_forecast():
         df = pd.read_sql(query, engine)
 
         if df["pm10"].isnull().values.any() == True:
-            res = all_forecast(i, 18)
+            res = all_forecast(i, 36)
                     # print(result)
         else:
-            res = all_forecast_withpm(i, 18)
+            res = all_forecast_withpm(i, 36)
                     # print(result)
         result.append(res)
     return result
