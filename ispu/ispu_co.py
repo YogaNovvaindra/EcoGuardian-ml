@@ -61,7 +61,7 @@ def get_ispu_co(esp_id):
         health_status = "Berbahaya"
 
     Xx = average_co
-    I = ((Ia - Ib) / (Xa - Xb)) * (Xx - Xb) + Ib
+    I = 500 if Xa == Xb else ((Ia - Ib) / (Xa - Xb)) * (Xx - Xb) + Ib
     
     I = float(I)
 

@@ -54,7 +54,7 @@ def get_ispu_pm10(esp_id):
         health_status = "Berbahaya"
 
     Xx = average_pm10
-    I = ((Ia - Ib) / (Xa - Xb)) * (Xx - Xb) + Ib
+    I = 500 if Xa == Xb else ((Ia - Ib) / (Xa - Xb)) * (Xx - Xb) + Ib
     
     I = float(I)
     return I, health_status
