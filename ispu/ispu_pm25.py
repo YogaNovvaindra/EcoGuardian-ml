@@ -54,9 +54,10 @@ def get_ispu_pm25(esp_id):
         health_status = "Berbahaya"
 
     Xx = average_pm25
-    I = ((Ia - Ib) / (Xa - Xb)) * (Xx - Xb) + Ib
-    
+    I = 500 if Xa == Xb else ((Ia - Ib) / (Xa - Xb)) * (Xx - Xb) + Ib
+
     # convert to float 
     I = float(I)
+
 
     return I, health_status
