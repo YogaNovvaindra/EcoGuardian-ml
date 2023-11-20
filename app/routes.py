@@ -1,10 +1,12 @@
 from flask import Blueprint, jsonify, request
 from exponen.forecast import get_forecast
+from exponen.ispu_forecast import get_ispu_forecast
 from exponen.clean_forecast import get_clean_forecast
 
 # from exponen.pm25 import get_forecast_pm25
 from ispu.ispu_main import get_ispu
 from ispu.ispu_clean import get_ispu_clean
+from ispu.ispu_mean import get_ispu_mean
 from output.display import get_display
 from output.mean import get_mean
 
@@ -17,6 +19,15 @@ def forecast():
     forecast = get_forecast()
     return jsonify({"Triple Exponential Smoothing Forecast": forecast})
 
+@bp.route("/forecast_ispu", methods=["GET"])
+def forecast_ispu():
+    forecast_period = request.args.get("forecast_period")
+    
+    if forecast_period is None:
+        return jsonify({"error": "Missing 'forecast_period' parameter"}), 400
+    forecast_ispu = get_ispu_forecast(int(forecast_period))
+    return jsonify({"Triple Exponential Smoothing Forecast": forecast_ispu})
+    
 
 @bp.route("/clean_forecast", methods=["GET"])
 def clean_forecast():
@@ -50,6 +61,11 @@ def get_ispu_co2_endpoint():
 def get_ispu_clean_endpoint():
     clean_result = get_ispu_clean()
     return jsonify({"Result ISPU": clean_result})
+
+@bp.route("/ispu_mean", methods=["GET"])
+def get_ispu_mean_endpoint():
+    mean_result = get_ispu_mean()
+    return jsonify({"Result ISPU mean": mean_result})
 
 
 @bp.route("/display", methods=["GET"])
