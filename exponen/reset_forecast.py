@@ -16,17 +16,17 @@ def reset_forecast():
     try:
         delete_time = datetime.datetime.utcnow()
         delete_time = delete_time + datetime.timedelta(minutes=10)
-        delete_3h = delete_time + datetime.timedelta(hours=6)
-        # query_delete = f"DELETE FROM forecast WHERE esp_id = '{esp_id}' AND createdAt BETWEEN '{delete_time}' AND '{delete_3h}'"
+        delete_future = delete_time + datetime.timedelta(hours=6)
+        # query_delete = f"DELETE FROM forecast WHERE esp_id = '{esp_id}' AND createdAt BETWEEN '{delete_time}' AND '{delete_future}'"
         query_delete = text(
-            f"DELETE FROM forecast WHERE createdAt BETWEEN :delete_time AND :delete_3h"
+            f"DELETE FROM forecast WHERE createdAt BETWEEN :delete_time AND :delete_future"
         )
         result = connection.execute(
             query_delete,
             {
                 # "esp_id": esp_id,
                 "delete_time": delete_time,
-                "delete_3h": delete_3h,
+                "delete_future": delete_future,
             },
         )
 
@@ -47,16 +47,16 @@ def reset_mean_forecast():
     try:
         delete_time = datetime.datetime.utcnow()
         delete_time = delete_time + datetime.timedelta(minutes=10)
-        delete_3h = delete_time + datetime.timedelta(hours=6)
+        delete_future = delete_time + datetime.timedelta(hours=6)
         query_delete = text(
-            f"DELETE FROM forecast_mean WHERE createdAt BETWEEN :delete_time AND :delete_3h"
+            f"DELETE FROM forecast_mean WHERE createdAt BETWEEN :delete_time AND :delete_future"
         )
         result = connection.execute(
             query_delete,
             {
                 # "esp_id": esp_id,
                 "delete_time": delete_time,
-                "delete_3h": delete_3h,
+                "delete_future": delete_future,
             },
         )
 
