@@ -11,7 +11,7 @@ permissions:
       packages: write
 
 env:
-  VER_TAG: v0.8.2
+  VER_TAG: v0.8.5
 
 jobs:
   docker:

@@ -7,7 +7,8 @@ from sqlalchemy import text
 def get_clean_forecast():
     all_clean = clean_forecast()
     all_clean_mean = clean_forecast_mean()
-    return all_clean, all_clean_mean
+    all_clean_ispu = clean_forecast_ispu()
+    return all_clean, all_clean_mean, all_clean_ispu
 
 
 def clean_forecast():
@@ -66,5 +67,34 @@ def clean_forecast_mean():
         return f"Error when updating forecast_mean table : {str(e)}"
     else:
         return "Success updating forecast_mean table"
+    finally:
+        connection.close()
+
+def clean_forecast_ispu():
+    engine = use_engine()
+    connection = engine.connect()
+
+    # update table forecast with state = false and time between now and older
+    try:
+        query = text(
+            """
+            UPDATE ispu_mean_forecast
+            SET state = 0
+            WHERE state = 1
+            AND createdAt < NOW() - INTERVAL 7 HOUR
+        """
+        )
+        connection.execute(query)
+
+        query_del = text(
+            "DELETE FROM ispu_mean_forecast WHERE createdAt < NOW() - INTERVAL 7 DAY"
+        )
+        connection.execute(query_del)
+        connection.commit()
+    except SQLAlchemyError as e:
+        logging.error(e)
+        return f"Error when updating ispu_mean_forecast table : {str(e)}"
+    else:
+        return "Success updating ispu_mean_forecast table"
     finally:
         connection.close()
