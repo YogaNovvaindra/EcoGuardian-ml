@@ -7,9 +7,12 @@ from app.db import use_engine
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import text
 from exponen.engine import triple_exponential_smoothing
+from exponen.reset_forecast import reset_ispu_forecast
 
 
 def get_ispu_forecast(forecast_period):
+    
+    del_ispu_forecast = reset_ispu_forecast()
     engine = use_engine()
     connection = engine.connect()
 
