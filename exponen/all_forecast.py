@@ -46,7 +46,7 @@ def all_forecast(esp_id, forecast_period):
     mq135_co2 = mq135_co2.groupby(np.arange(len(mq135_co2)) // 10).mean()
     mq135_co2 = mq135_co2[::-1].reset_index(drop=True)
     forecast_mq135_co2 = triple_exponential_smoothing(
-        mq135_co2, 7, 0.6, 0.4, 0.007, forecast_period
+        mq135_co2, 7, 0.6, 0.4, 0.006, forecast_period
     )
 
     # mq135_toluen = df["mq135_toluen"]

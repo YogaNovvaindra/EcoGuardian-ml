@@ -19,13 +19,13 @@ def triple_exponential_smoothing(data, seasonality_period, alpha, beta, gamma, f
             last_seasonal = seasonal[i % seasonality_period]
             
             # Update level
-            level = (alpha * (value / last_seasonal)) + ((1 - alpha) * (last_level + last_trend))
+            level = alpha * (value - last_seasonal) + (1 - alpha) * (last_level + last_trend)
             
             # Update trend
-            trend = (beta * (level - last_level)) + ((1 - beta) * last_trend)
+            trend = beta * (level - last_level) + (1 - beta) * last_trend
             
             # Update seasonal
-            seasonal[i % seasonality_period] =( gamma * (value / level)) + ((1 - gamma) * last_seasonal)
+            seasonal[i % seasonality_period] = gamma * (value - level) + (1 - gamma) * last_seasonal
             
             # Simpan nilai fitted
             fitted_values.append(level + trend + seasonal[i % seasonality_period])
@@ -37,8 +37,8 @@ def triple_exponential_smoothing(data, seasonality_period, alpha, beta, gamma, f
             last_seasonal = seasonal[i % seasonality_period]
             
             level = last_level + last_trend
-            trend = (beta * (level - last_level)) + ((1 - beta) * last_trend)
-            seasonal[i % seasonality_period] = (gamma * (value / level)) + ((1 - gamma) * last_seasonal)
+            trend = beta * (level - last_level) + (1 - beta) * last_trend
+            seasonal[i % seasonality_period] = gamma * (value - level) + (1 - gamma) * last_seasonal
             
             forecast_values.append(level + trend + seasonal[i % seasonality_period])
 
