@@ -9,7 +9,8 @@ def triple_exponential_smoothing(data, seasonality_period, alpha, beta, gamma, f
     # Inisialisasi variabel hasil
     fitted_values = []
     forecast_values = []
-    
+    actual_values = []  # Tambahkan array untuk menyimpan nilai sebenarnya
+
     for i in range(len(data) + forecast_period):
         # Update level, trend, dan seasonal
         if i < len(data):
@@ -29,6 +30,9 @@ def triple_exponential_smoothing(data, seasonality_period, alpha, beta, gamma, f
             
             # Simpan nilai fitted
             fitted_values.append(level + trend + seasonal[i % seasonality_period])
+
+            # Simpan nilai sebenarnya
+            actual_values.append(value)
         else:
             # Forecasting
             # Update level, trend, dan seasonal untuk periode forecast
@@ -41,6 +45,10 @@ def triple_exponential_smoothing(data, seasonality_period, alpha, beta, gamma, f
             seasonal[i % seasonality_period] = gamma * (value - level) + (1 - gamma) * last_seasonal
             
             forecast_values.append(level + trend + seasonal[i % seasonality_period])
+
+    # # Hitung Mean Squared Deviation (MSD)
+    # n = len(data) + forecast_period
+    # msd = sum((actual_values[i] - fitted_values[i]) ** 2 for i in range(n)) / n
 
     forecast_values = [round(float(i), 3) for i in forecast_values]
     return forecast_values

@@ -25,7 +25,7 @@ def get_forecast():
 
     res = mean_forecast(36)
     result.append(res)
-    # if delete == True:
+    # # if delete == True:
     for i in esp_id:
         query = (
             f"SELECT * FROM data WHERE esp_id = '{i}' ORDER BY createdAt DESC LIMIT 1"

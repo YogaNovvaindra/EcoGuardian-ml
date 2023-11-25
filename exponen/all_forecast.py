@@ -21,21 +21,21 @@ def all_forecast(esp_id, forecast_period):
     temperature = temperature.groupby(np.arange(len(temperature)) // 10).mean()
     temperature = temperature[::-1].reset_index(drop=True)
     forecast_temperature = triple_exponential_smoothing(
-        temperature, 7, 0.4, 0.8, 0.07, forecast_period
+        temperature, 7, 0.2, 0.2, 0.2, forecast_period
     )
 
     humidity = df["humidity"]
     humidity = humidity.groupby(np.arange(len(humidity)) // 10).mean()
     humidity = humidity[::-1].reset_index(drop=True)
     forecast_humidity = triple_exponential_smoothing(
-        humidity, 7, 0.5, 0.4, 0.013, forecast_period
+        humidity, 7, 0.8, 0.1, 0.1, forecast_period
     )
 
     mq135_co = df["mq135_co"]
     mq135_co = mq135_co.groupby(np.arange(len(mq135_co)) // 10).mean()
     mq135_co = mq135_co[::-1].reset_index(drop=True)
     forecast_mq135_co = triple_exponential_smoothing(
-        mq135_co, 7, 0.6, 0.4, 0.01, forecast_period
+        mq135_co, 7, 0.4, 0.8, 0.04, forecast_period
     )
 
     # mq135_alcohol = df["mq135_alcohol"]
@@ -46,7 +46,7 @@ def all_forecast(esp_id, forecast_period):
     mq135_co2 = mq135_co2.groupby(np.arange(len(mq135_co2)) // 10).mean()
     mq135_co2 = mq135_co2[::-1].reset_index(drop=True)
     forecast_mq135_co2 = triple_exponential_smoothing(
-        mq135_co2, 7, 0.6, 0.4, 0.006, forecast_period
+        mq135_co2, 7, 0.4, 0.08, 0.04, forecast_period
     )
 
     # mq135_toluen = df["mq135_toluen"]
@@ -169,21 +169,21 @@ def all_forecast_withpm(esp_id, forecast_period):
     temperature = temperature.groupby(np.arange(len(temperature)) // 10).mean()
     temperature = temperature[::-1].reset_index(drop=True)
     forecast_temperature = triple_exponential_smoothing(
-        temperature, 7, 0.6, 0.4, 0.07, forecast_period
+        temperature, 7, 0.2, 0.2, 0.2, forecast_period
     )
 
     humidity = df["humidity"]
     humidity = humidity.groupby(np.arange(len(humidity)) // 10).mean()
     humidity = humidity[::-1].reset_index(drop=True)
     forecast_humidity = triple_exponential_smoothing(
-        humidity, 7, 0.5, 0.4, 0.013, forecast_period
+        humidity, 7, 0.8, 0.1, 0.1, forecast_period
     )
 
     mq135_co = df["mq135_co"]
     mq135_co = mq135_co.groupby(np.arange(len(mq135_co)) // 10).mean()
     mq135_co = mq135_co[::-1].reset_index(drop=True)
     forecast_mq135_co = triple_exponential_smoothing(
-        mq135_co, 7, 0.6, 0.4, 0.01, forecast_period
+        mq135_co, 7, 0.4, 0.8, 0.04, forecast_period
     )
 
     # mq135_alcohol = df["mq135_alcohol"]
@@ -194,7 +194,7 @@ def all_forecast_withpm(esp_id, forecast_period):
     mq135_co2 = mq135_co2.groupby(np.arange(len(mq135_co2)) // 10).mean()
     mq135_co2 = mq135_co2[::-1].reset_index(drop=True)
     forecast_mq135_co2 = triple_exponential_smoothing(
-        mq135_co2,  7, 0.6, 0.4, 0.007, forecast_period
+        mq135_co2, 7, 0.4, 0.08, 0.04, forecast_period
     )
 
     # mq135_toluen = df["mq135_toluen"]
@@ -256,7 +256,7 @@ def all_forecast_withpm(esp_id, forecast_period):
     pm10 = pm10.groupby(np.arange(len(pm10)) // 10).mean()
     pm10 = pm10[::-1].reset_index(drop=True)
     forecast_pm10 = triple_exponential_smoothing(
-        pm10, 7, 0.2, 0.1, 0.3, forecast_period
+        pm10, 7, 0.2, 0.2, 0.2, forecast_period
     )
 
     pm25 = df["pm25"]
