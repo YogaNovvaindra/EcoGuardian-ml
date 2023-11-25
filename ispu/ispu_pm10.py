@@ -20,29 +20,29 @@ def get_ispu_pm10(esp_id):
     if 0 <= average_pm10 <= 50:
         Ia = 100
         Ib = 50
-        Xa = 55.4
-        Xb = 15.5
+        Xa = 150
+        Xb = 50
         color = "green"
         health_status = "Baik"
     elif 51 <= average_pm10 <= 150:
         Ia = 200
         Ib = 100
-        Xa = 150.4
-        Xb = 55.4
+        Xa = 350
+        Xb = 150
         color = "blue"
         health_status = "Sedang"
     elif 151 <= average_pm10 <= 350:
         Ia = 300
         Ib = 200
-        Xa = 250.4
-        Xb = 150.4
+        Xa = 420
+        Xb = 350
         color = "yellow"
         health_status = "Tidak Sehat"
     elif 351 <= average_pm10 <= 420:
         Ia = 400
         Ib = 300
         Xa = 500
-        Xb = 250.4
+        Xb = 420
         color = "red"
         health_status = "Sangat Tidak Sehat"
     else:

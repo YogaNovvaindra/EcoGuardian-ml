@@ -23,7 +23,7 @@ def get_ispu_forecast(forecast_period):
     ispu = ispu.groupby(np.arange(len(ispu)) // 10).mean()
     ispu = ispu[::-1].reset_index(drop=True)
     forecast_ispu = triple_exponential_smoothing(
-        ispu, 7, 0.2, 0.2, 0.2, forecast_period
+        ispu, 7, 0.4, 0.1, 0.1, forecast_period
     )
 
     now = datetime.datetime.utcnow()
