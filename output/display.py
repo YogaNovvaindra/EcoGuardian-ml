@@ -36,6 +36,19 @@ def get_display():
         ) = 0  # or any other appropriate values
 
     # print(combined_data)
-    overall_avg_polution = "Baik"
+    query = "SELECT ispu FROM ispu_mean ORDER BY createdAt DESC LIMIT 1"
+    df = pd.read_sql(query, engine)
+    ispu = df.iloc[0]["ispu"]
+    
+    if (ispu >= 0 and ispu <= 50):
+        overall_avg_polution = "Baik"
+    elif (ispu >= 51 and ispu <= 100):
+        overall_avg_polution = "Sedang"
+    elif (ispu >= 101 and ispu <= 199):
+        overall_avg_polution = "Tidak Sehat"
+    elif (ispu >= 200 and ispu <= 299):
+        overall_avg_polution = "Sangat Tidak Sehat"
+    elif (ispu >= 300):
+        overall_avg_polution = "Berbahaya"
 
     return overall_avg_temperature, overall_avg_humidity, overall_avg_polution
