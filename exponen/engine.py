@@ -46,9 +46,5 @@ def triple_exponential_smoothing(data, seasonality_period, alpha, beta, gamma, f
             
             forecast_values.append(level + trend + seasonal[i % seasonality_period])
 
-    # # Hitung Mean Squared Deviation (MSD)
-    # n = len(data) + forecast_period
-    # msd = sum((actual_values[i] - fitted_values[i]) ** 2 for i in range(n)) / n
-
     forecast_values = [round(float(i), 3) for i in forecast_values]
     return forecast_values
