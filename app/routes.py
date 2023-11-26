@@ -11,6 +11,7 @@ from ispu.ispu_clean import get_ispu_clean
 from ispu.ispu_mean import get_ispu_mean
 from output.display import get_display
 from output.mean import get_mean
+from output.status_esp import get_status_esp
 
 
 bp = Blueprint("main", __name__)
@@ -102,4 +103,10 @@ def get_display_endpoint():
 def get_mean_endpoint():
     # Call the get_mean function to calculate the result
     result = get_mean()
+    return jsonify({"Result": result})
+
+@bp.route("/status_esp", methods=["GET"])
+def get_status_esp_endpoint():
+    # Call the get_status_esp function to calculate the result
+    result = get_status_esp()
     return jsonify({"Result": result})
