@@ -34,14 +34,14 @@ def mean_forecast(forecast_period):
     mq135_co = mq135_co.groupby(np.arange(len(mq135_co)) // 10).mean()
     mq135_co = mq135_co[::-1].reset_index(drop=True)
     forecast_mq135_co = triple_exponential_smoothing(
-        mq135_co, 7, 0.9, 0.015, 0.6,forecast_period
+        mq135_co, 7, 0.8, 0.01, 0.8, forecast_period
     )
 
     mq135_co2 = df["mq135_co2"]
     mq135_co2 = mq135_co2.groupby(np.arange(len(mq135_co2)) // 10).mean()
     mq135_co2 = mq135_co2[::-1].reset_index(drop=True)
     forecast_mq135_co2 = triple_exponential_smoothing(
-        mq135_co2,  7, 0.4, 0.08, 0.04,  forecast_period
+        mq135_co2,  7, 0.8, 0.01, 0.8, forecast_period
     )
 
     now = datetime.datetime.utcnow()
