@@ -2,7 +2,9 @@ from flask import Blueprint, jsonify, request
 from exponen.forecast import get_forecast
 from exponen.ispu_forecast import get_ispu_forecast
 from exponen.clean_forecast import get_clean_forecast
-
+from exponen.forecast_engine import get_forecast_engine
+from exponen.forecast_engine import forecast_withpm
+from exponen.forecast_engine import get_ispu_forecast_engine
 # from exponen.pm25 import get_forecast_pm25
 from ispu.ispu_main import get_ispu
 from ispu.ispu_clean import get_ispu_clean
@@ -17,6 +19,21 @@ bp = Blueprint("main", __name__)
 @bp.route("/forecast", methods=["GET"])
 def forecast():
     forecast = get_forecast()
+    return jsonify({"Triple Exponential Smoothing Forecast": forecast})
+
+@bp.route("/forecast_engine", methods=["GET"])
+def forecast_engine():
+    forecast = get_forecast_engine()
+    return jsonify({"Triple Exponential Smoothing Forecast": forecast})
+
+@bp.route("/forecast_withpm", methods=["GET"])
+def get_forecast_withpm():
+    forecast = forecast_withpm()
+    return jsonify({"Triple Exponential Smoothing Forecast 10": forecast[0], "Triple Exponential Smoothing Forecast 25": forecast[1]})
+
+@bp.route("/forecast_ispu_engine", methods=["GET"])
+def get_ispu():
+    forecast = get_ispu_forecast_engine()
     return jsonify({"Triple Exponential Smoothing Forecast": forecast})
 
 @bp.route("/forecast_ispu", methods=["GET"])
