@@ -41,14 +41,14 @@ def get_display():
     ispu = df.iloc[0]["ispu"]
     
     if (ispu >= 0 and ispu <= 50):
-        overall_avg_polution = "Baik"
+        overall_avg_polution = "Good"
     elif (ispu >= 51 and ispu <= 100):
-        overall_avg_polution = "Sedang"
+        overall_avg_polution = "Moderate"
     elif (ispu >= 101 and ispu <= 199):
-        overall_avg_polution = "Tidak Sehat"
+        overall_avg_polution = "Unhealthy"
     elif (ispu >= 200 and ispu <= 299):
-        overall_avg_polution = "Sangat Tidak Sehat"
+        overall_avg_polution = "Very Unhealthy"
     elif (ispu >= 300):
-        overall_avg_polution = "Berbahaya"
+        overall_avg_polution = "Hazardous"
 
     return overall_avg_temperature, overall_avg_humidity, overall_avg_polution
