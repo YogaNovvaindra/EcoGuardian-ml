@@ -11,8 +11,8 @@ def get_ispu_pm10(esp_id):
     engine = use_engine()
     connection = engine.connect()
 
-    query = f"SELECT pm10 FROM data WHERE esp_id = '{esp_id}' ORDER BY createdAt DESC LIMIT 60"
-    # query = f"SELECT mq135 FROM dummy WHERE esp_id = '{esp_id}' ORDER BY timestamp DESC"
+    # query = f"SELECT pm10 FROM data WHERE esp_id = '{esp_id}' ORDER BY createdAt DESC LIMIT 60"
+    query = f"SELECT pm10 FROM data WHERE esp_id = '{esp_id}' ORDER BY createdAt DESC LIMIT 1440"
     df = pd.read_sql(query, engine)
     average_pm10 = df["pm10"].mean()
     # print('rata', average_pm10)
