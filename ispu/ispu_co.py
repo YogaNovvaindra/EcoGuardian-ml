@@ -10,8 +10,8 @@ from app.db import use_engine
 def get_ispu_co(esp_id):
     engine = use_engine()
     connection = engine.connect()
-    query = f"SELECT mq135_co FROM data WHERE esp_id = '{esp_id}' ORDER BY createdAt DESC LIMIT 60"
-    # query = f"SELECT mq135 FROM dummy WHERE esp_id = '{esp_id}' ORDER BY timestamp DESC"
+    # query = f"SELECT mq135_co FROM data WHERE esp_id = '{esp_id}' ORDER BY createdAt DESC LIMIT 60"
+    query = f"SELECT mq135_co FROM data WHERE esp_id = '{esp_id}' ORDER BY createdAt DESC LIMIT 1440"
     df = pd.read_sql(query, engine)
 
     average = df["mq135_co"].mean()
